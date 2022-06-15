@@ -11,51 +11,22 @@ import java.util.List;
 import java.util.Scanner;
 
 public class OwnerController {
-    private Owner owner;
-    private final List<Customer> OWNER_CUSTOMER_LIST;
+    private static final List<Customer> OWNER_CUSTOMER_LIST = Owner.CUSTOMERS_LIST;
     private final List<Customer> OWNER_BLOCKED_CUSTOMERS_LIST;
     private final List<Product> OWNER_PRODUCT_LIST;
     private final List<Transaction> OWNER_TRANSACTION_LIST;
     private final OwnerView OWNER_VIEW = new OwnerView();
     private final Scanner SCAN = new Scanner(System.in);
     public OwnerController(Owner owner) {
-        this.owner = owner;
         OWNER_PRODUCT_LIST = owner.getProductList();
         OWNER_TRANSACTION_LIST = owner.getTransactionList();
-        OWNER_CUSTOMER_LIST = owner.getCustomersList();
         OWNER_BLOCKED_CUSTOMERS_LIST = owner.getBlockedCustomersList();
     }
 
-    public void openShop () {
-        while (true) {
-            System.out.println("""
-                    Welcome!
-                    1 -> Login
-                    2 -> Register
-                    3 -> Exit
-                    """);
-
-            String input = SCAN.nextLine();
-
-            // Validation
-
-            int choice = Integer.parseInt(input);
-
-            switch (choice) {
-                case 1 -> ShopHelper.login(OWNER_CUSTOMER_LIST);
-                case 2 -> ShopHelper.register(OWNER_CUSTOMER_LIST);
-                case 3 -> {return;}
-            }
-        }
-    }
-    public void start () {
-        chooseFromDashboard();
-    }
-
-    private void chooseFromDashboard () {
+    public void chooseFromDashboard () {
         while (true) {
             OWNER_VIEW.showOwnerDashboard();
-            String input = SCAN.nextLine();
+            String input = SCAN.nextLine().trim();
 
             // Validation here
             int choice = Integer.parseInt(input);
@@ -75,11 +46,11 @@ public class OwnerController {
         System.out.print("Enter the product name: ");
         String productName = SCAN.nextLine();
 
-        System.out.print("Enter the product name: ");
-        Double productPrice = SCAN.nextDouble();
+        System.out.print("Enter the product price: ");
+        Double productPrice = Double.parseDouble(SCAN.nextLine());
 
-        System.out.print("Enter the product name: ");
-        Integer productQuantity = SCAN.nextInt();
+        System.out.print("Enter the product quantity: ");
+        Integer productQuantity = Integer.parseInt(SCAN.nextLine());
 
         OWNER_PRODUCT_LIST.add(new Product(productName,productPrice,productQuantity));
     }
