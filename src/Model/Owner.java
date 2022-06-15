@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Owner extends User{
-    private final List<Customer> CUSTOMERS_LIST = new ArrayList<>();
+    public static final List<Customer> CUSTOMERS_LIST = new ArrayList<>();
     private final List<Customer> BUYERS = new ArrayList<>();
     private final List<Customer> BLOCKED_CUSTOMERS_LIST = new ArrayList<>();
     private final List<Product> PRODUCT_LIST = new ArrayList<>();
@@ -12,10 +12,6 @@ public class Owner extends User{
     public Owner () {
         this.setUsername("owner");
         this.setPassword("jc123");
-    }
-
-    public List<Customer> getCustomersList() {
-        return CUSTOMERS_LIST;
     }
 
     public List<Customer> getBlockedCustomersList() {
