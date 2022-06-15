@@ -1,5 +1,6 @@
 package Controller;
 
+import Helper.ShopHelper;
 import Model.Customer;
 import Model.Owner;
 import Model.Product;
@@ -25,6 +26,28 @@ public class OwnerController {
         OWNER_BLOCKED_CUSTOMERS_LIST = owner.getBlockedCustomersList();
     }
 
+    public void openShop () {
+        while (true) {
+            System.out.println("""
+                    Welcome!
+                    1 -> Login
+                    2 -> Register
+                    3 -> Exit
+                    """);
+
+            String input = SCAN.nextLine();
+
+            // Validation
+
+            int choice = Integer.parseInt(input);
+
+            switch (choice) {
+                case 1 -> ShopHelper.login(OWNER_CUSTOMER_LIST);
+                case 2 -> ShopHelper.register(OWNER_CUSTOMER_LIST);
+                case 3 -> {return;}
+            }
+        }
+    }
     public void start () {
         chooseFromDashboard();
     }
@@ -43,6 +66,7 @@ public class OwnerController {
                 case 3 -> OWNER_VIEW.viewCustomerDetail(OWNER_CUSTOMER_LIST);
                 case 4 -> OWNER_VIEW.viewOwnerProducts(OWNER_PRODUCT_LIST);
                 case 5 -> blockACustomer();
+                case 6 -> {return;}
             }
         }
     }
