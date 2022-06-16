@@ -1,5 +1,6 @@
 package Controller;
 
+import Helper.FileHelper;
 import Helper.UIHelper;
 import Model.Customer;
 import Model.Owner;
@@ -121,6 +122,9 @@ public class CustomerController {
             ProductController productController = new ProductController(chosenProduct);
             productController.updateProductQuantity(qty);
             productController.updateProduct();
+
+            FileHelper.makeFile("src/CSV/transactions.csv", "CustomerName,ProductName,ProductPrice,ProductQuantity\n");
+            FileHelper.writeTransactions(transaction + "\n");
         }
     }
 
@@ -161,8 +165,10 @@ public class CustomerController {
             TRANSACTION_LIST.add(transaction);
 
             ProductController productController = new ProductController(product);
-            productController.updateProductQuantity(product.getBOUGHT_QUANTITY());
             productController.updateProduct();
+
+            FileHelper.makeFile("src/CSV/transactions.csv", "CustomerName,ProductName,ProductPrice,ProductQuantity");
+            FileHelper.writeTransactions(transaction + "\n");
         }
 
         System.out.println("DONE! ");
