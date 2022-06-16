@@ -53,6 +53,8 @@ public class OwnerController {
         Integer productQuantity = Integer.parseInt(SCAN.nextLine());
 
         OWNER_PRODUCT_LIST.add(new Product(productName,productPrice,productQuantity));
+
+        System.out.printf("%d %ss was added!",productQuantity,productPrice);
     }
     public void blockACustomer () {
         System.out.print("Enter the customer first name: ");
@@ -60,12 +62,15 @@ public class OwnerController {
 
         for (Customer customer : OWNER_CUSTOMER_LIST) {
             if (customer.getFirstName().equals(customerName)) {
-                System.out.println("Customer successfully blocked!");
+                System.out.printf("\n%s was successfully blocked!\n",customer.getFirstName());
 
                 OWNER_CUSTOMER_LIST.remove(customer);
                 OWNER_BLOCKED_CUSTOMERS_LIST.add(customer);
+                return;
             }
         }
+
+        System.out.println("\nNo user found!\n");
     }
     //TODO: 15 Jun 2022
     // view customer details
