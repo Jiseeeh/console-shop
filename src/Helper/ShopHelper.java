@@ -12,7 +12,10 @@ import java.util.Scanner;
 public class ShopHelper {
     private static final Scanner SCAN = new Scanner(System.in);
     private static final List<Customer> CUSTOMERS_LIST = Owner.CUSTOMERS_LIST;
-    public static void openShop () {
+    private static final File ACCOUNTS_CSV = new File("src/CSV/accounts.csv");
+
+    public static void openShop() {
+        FileHelper.loadFile(ACCOUNTS_CSV);
         while (true) {
             System.out.println("""
                     Welcome!
@@ -31,16 +34,16 @@ public class ShopHelper {
                 case 1 -> ShopHelper.login();
                 case 2 -> ShopHelper.register();
                 case 3 -> {
-                    File file = new File("src/CSV/accounts.csv");
                     for (Customer customer : CUSTOMERS_LIST) {
-                        FileHelper.writeToFile(file, customer.toString());
+                        FileHelper.writeToFile(ACCOUNTS_CSV, customer.toString());
                     }
                     return;
                 }
             }
         }
     }
-    private static void login () {
+
+    private static void login() {
         System.out.print("Enter your username: ");
         String username = SCAN.nextLine();
 
@@ -62,7 +65,7 @@ public class ShopHelper {
         }
     }
 
-    private  static void register () {
+    private static void register() {
         System.out.print("Enter your first name: ");
         String firstName = SCAN.nextLine();
 
@@ -75,13 +78,13 @@ public class ShopHelper {
         System.out.print("Enter your password: ");
         String password = SCAN.nextLine();
 
-        if (ValidationHelper.hasInvalidInput(firstName,lastName,username,password)) {
+        if (ValidationHelper.hasInvalidInput(firstName, lastName, username, password)) {
             System.out.println("Please answer properly");
             return;
         }
 
         FileHelper.makeFile("src/CSV/accounts.csv", "FirstName,LastName,Username,Password,Balance\n");
-        CUSTOMERS_LIST.add(new Customer(firstName,lastName,username,password));
+        CUSTOMERS_LIST.add(new Customer(firstName, lastName, username, password));
 
     }
 }
