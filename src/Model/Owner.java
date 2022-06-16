@@ -10,8 +10,10 @@ public class Owner extends User{
     public static final List<Product> PRODUCT_LIST = new ArrayList<>();
     public static final List<Transaction> TRANSACTION_LIST = new ArrayList<>();
     public Owner () {
+        this.setFirstName("JohnCarlo");
+        this.setLastName("Camara");
         this.setUsername("owner");
-        this.setPassword("jc123");
+        this.setPassword("123");
     }
 
     public List<Customer> getBlockedCustomersList() {

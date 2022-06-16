@@ -51,7 +51,7 @@ public class ShopHelper {
         String password = SCAN.nextLine();
 
 
-        if (username.equals("owner") && password.equals("jc123")) {
+        if (username.equals("owner") && password.equals("123")) {
             OwnerController ownerController = new OwnerController(new Owner());
             ownerController.chooseFromDashboard();
             return;
