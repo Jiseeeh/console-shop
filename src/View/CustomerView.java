@@ -15,6 +15,9 @@ public class CustomerView {
     }
 
     public void viewMyInfo (Customer customer) {
-        System.out.println(customer.getFirstName());
+        System.out.printf("""
+                Firstname : %s
+                Lastname : %s
+                """,customer.getFirstName(),customer.getLastName());
     }
 }
