@@ -4,6 +4,7 @@ import Controller.CustomerController;
 import Controller.OwnerController;
 import Model.Customer;
 import Model.Owner;
+import Model.Product;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,13 +14,16 @@ import java.util.Scanner;
 public class ShopHelper {
     private static final Scanner SCAN = new Scanner(System.in);
     private static final List<Customer> CUSTOMERS_LIST = Owner.CUSTOMERS_LIST;
+    private static final List<Product> PRODUCT_LIST = Owner.PRODUCT_LIST;
     private static final File ACCOUNTS_CSV = new File("src/CSV/accounts.csv");
+    private static final File PRODUCTS_CSV = new File("src/CSV/products.csv");
 
     public static void openShop() throws IOException {
-        FileHelper.loadFile(ACCOUNTS_CSV);
+        FileHelper.loadAccounts(ACCOUNTS_CSV);
+        FileHelper.loadProducts(PRODUCTS_CSV);
         while (true) {
             System.out.println("""
-                    Welcome!
+                    Welcome! (Always exit here in option 3!)
                     1 -> Login
                     2 -> Register
                     3 -> Exit
@@ -35,11 +39,20 @@ public class ShopHelper {
                 case 1 -> ShopHelper.login();
                 case 2 -> ShopHelper.register();
                 case 3 -> {
+                    if (ACCOUNTS_CSV.exists()) ACCOUNTS_CSV.delete();
+                    FileHelper.makeFile(ACCOUNTS_CSV.toString(), "FirstName,LastName,Username,Password,Balance\n");
+
+                    if (PRODUCTS_CSV.exists()) PRODUCTS_CSV.delete();
+                    FileHelper.makeFile(PRODUCTS_CSV.toString(), "ProductName,ProductPrice,ProductQuantity\n");
+
                     for (Customer customer : CUSTOMERS_LIST) {
-                        if (ACCOUNTS_CSV.createNewFile()) {
-                            FileHelper.writeToFile(ACCOUNTS_CSV, "FirstName,LastName,Username,Password,Balance\n");
-                            FileHelper.writeToFile(ACCOUNTS_CSV, customer.toString() + "\n");
-                        } else FileHelper.writeToFile(ACCOUNTS_CSV, customer.toString() + "\n");
+                        FileHelper.writeToFile(ACCOUNTS_CSV, customer + "\n");
+                    }
+
+                    for (Product product : PRODUCT_LIST) {
+                        if (product.getProductQuantity() != 0) {
+                            FileHelper.writeToFile(PRODUCTS_CSV, product + "\n");
+                        }
                     }
                     return;
                 }
@@ -87,7 +100,6 @@ public class ShopHelper {
             return;
         }
 
-        FileHelper.makeFile("src/CSV/accounts.csv", "FirstName,LastName,Username,Password,Balance\n");
         CUSTOMERS_LIST.add(new Customer(firstName, lastName, username, password));
 
     }
