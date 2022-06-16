@@ -20,33 +20,33 @@ public class OwnerView {
         System.out.print(": ");
     }
 
-    public void viewTransactions (List<Transaction> transactions) {
+    public void viewTransactions(List<Transaction> transactions) {
         transactions.forEach(transaction -> {
             System.out.println("\n----------------------------");
-            System.out.println(transaction.getCustomerName() + " bought " + transaction.getProductInfo());
+            System.out.println(transaction.getCustomer().getFirstName() + " " + transaction.getCustomer().getLastName() + " bought " + transaction.getProductInfo());
             System.out.println("----------------------------\n");
         });
     }
 
-    public void viewCustomerDetail (List<Customer> customers) {
+    public void viewCustomerDetail(List<Customer> customers) {
         customers.forEach(customer -> {
             System.out.println("----------------------------");
             System.out.printf("""
                     Firstname: %s
                     Lastname: %s
-                    """,customer.getFirstName(),customer.getLastName());
+                    """, customer.getFirstName(), customer.getLastName());
             System.out.println("----------------------------");
         });
     }
 
-    public void viewOwnerProducts (List<Product> products) {
+    public void viewOwnerProducts(List<Product> products) {
         products.forEach(product -> {
             System.out.println("----------------------------");
             System.out.printf("""
                     Product name: %s
                     Product price: %.1f
                     Product quantity: %d
-                    """,product.getProductName(),product.getProductPrice(),product.getProductQuantity());
+                    """, product.getProductName(), product.getProductPrice(), product.getProductQuantity());
             System.out.println("----------------------------");
         });
     }
