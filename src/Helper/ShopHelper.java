@@ -17,10 +17,12 @@ public class ShopHelper {
     private static final List<Product> PRODUCT_LIST = Owner.PRODUCT_LIST;
     private static final File ACCOUNTS_CSV = new File("src/CSV/accounts.csv");
     private static final File PRODUCTS_CSV = new File("src/CSV/products.csv");
+    private static final File TRANSACTION_CSV = new File("src/CSV/transactions.csv");
 
     public static void openShop() throws IOException {
         FileHelper.loadAccounts(ACCOUNTS_CSV);
         FileHelper.loadProducts(PRODUCTS_CSV);
+        FileHelper.loadTransactions(TRANSACTION_CSV);
         while (true) {
             System.out.println("""
                     Welcome! (Always exit here in option 3!)
