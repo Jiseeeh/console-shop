@@ -13,13 +13,11 @@ import java.util.Scanner;
 public class OwnerController {
     private static final List<Customer> OWNER_CUSTOMER_LIST = Owner.CUSTOMERS_LIST;
     private final List<Customer> OWNER_BLOCKED_CUSTOMERS_LIST;
-    private final List<Product> OWNER_PRODUCT_LIST;
-    private final List<Transaction> OWNER_TRANSACTION_LIST;
+    private final List<Product> OWNER_PRODUCT_LIST = Owner.PRODUCT_LIST;
+    private final List<Transaction> OWNER_TRANSACTION_LIST = Owner.TRANSACTION_LIST;
     private final OwnerView OWNER_VIEW = new OwnerView();
     private final Scanner SCAN = new Scanner(System.in);
     public OwnerController(Owner owner) {
-        OWNER_PRODUCT_LIST = owner.getProductList();
-        OWNER_TRANSACTION_LIST = owner.getTransactionList();
         OWNER_BLOCKED_CUSTOMERS_LIST = owner.getBlockedCustomersList();
     }
 
@@ -54,7 +52,7 @@ public class OwnerController {
 
         OWNER_PRODUCT_LIST.add(new Product(productName,productPrice,productQuantity));
 
-        System.out.printf("%d %ss was added!",productQuantity,productPrice);
+        System.out.printf("%d %ss was added!\n",productQuantity,productName);
     }
     public void blockACustomer () {
         System.out.print("Enter the customer first name: ");
