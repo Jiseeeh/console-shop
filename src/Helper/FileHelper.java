@@ -69,7 +69,7 @@ public class FileHelper {
 
             while ((line = bufferedReader.readLine()) != null) {
                 String[] data = line.split(",");
-                
+
                 Product product = new Product(data[0], Double.parseDouble(data[1]), Integer.parseInt(data[2]));
                 PRODUCT_LIST.add(product);
             }
