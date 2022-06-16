@@ -6,6 +6,7 @@ import Model.Customer;
 import Model.Owner;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class ShopHelper {
     private static final List<Customer> CUSTOMERS_LIST = Owner.CUSTOMERS_LIST;
     private static final File ACCOUNTS_CSV = new File("src/CSV/accounts.csv");
 
-    public static void openShop() {
+    public static void openShop() throws IOException {
         FileHelper.loadFile(ACCOUNTS_CSV);
         while (true) {
             System.out.println("""
@@ -35,7 +36,10 @@ public class ShopHelper {
                 case 2 -> ShopHelper.register();
                 case 3 -> {
                     for (Customer customer : CUSTOMERS_LIST) {
-                        FileHelper.writeToFile(ACCOUNTS_CSV, customer.toString());
+                        if (ACCOUNTS_CSV.createNewFile()) {
+                            FileHelper.writeToFile(ACCOUNTS_CSV, "FirstName,LastName,Username,Password,Balance\n");
+                            FileHelper.writeToFile(ACCOUNTS_CSV, customer.toString() + "\n");
+                        } else FileHelper.writeToFile(ACCOUNTS_CSV, customer.toString() + "\n");
                     }
                     return;
                 }

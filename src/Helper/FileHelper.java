@@ -27,7 +27,6 @@ public class FileHelper {
 
     public static void writeToFile(File file, String content) {
         try (FileWriter writer = new FileWriter(file, true)) {
-            writeAccountsHeader(writer);
             writer.append(content);
             writer.flush();
         } catch (IOException e) {

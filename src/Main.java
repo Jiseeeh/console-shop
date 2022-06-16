@@ -1,9 +1,13 @@
-import Controller.OwnerController;
 import Helper.ShopHelper;
-import Model.Owner;
+
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        ShopHelper.openShop();
+        try {
+            ShopHelper.openShop();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
