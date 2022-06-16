@@ -5,12 +5,13 @@ import Controller.OwnerController;
 import Model.Customer;
 import Model.Owner;
 
+import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 
 public class ShopHelper {
     private static final Scanner SCAN = new Scanner(System.in);
-    private static final List<Customer> customerList = Owner.CUSTOMERS_LIST;
+    private static final List<Customer> CUSTOMERS_LIST = Owner.CUSTOMERS_LIST;
     public static void openShop () {
         while (true) {
             System.out.println("""
@@ -29,7 +30,13 @@ public class ShopHelper {
             switch (choice) {
                 case 1 -> ShopHelper.login();
                 case 2 -> ShopHelper.register();
-                case 3 -> {return;}
+                case 3 -> {
+                    File file = new File("src/CSV/accounts.csv");
+                    for (Customer customer : CUSTOMERS_LIST) {
+                        FileHelper.writeToFile(file, customer.toString());
+                    }
+                    return;
+                }
             }
         }
     }
@@ -47,7 +54,7 @@ public class ShopHelper {
             return;
         }
 
-        for (Customer customer : ShopHelper.customerList) {
+        for (Customer customer : ShopHelper.CUSTOMERS_LIST) {
             if (customer.getUsername().equals(username) && customer.getPassword().equals(password)) {
                 CustomerController customerController = new CustomerController(customer);
                 customerController.chooseFromDashboard();
@@ -70,10 +77,11 @@ public class ShopHelper {
 
         if (ValidationHelper.hasInvalidInput(firstName,lastName,username,password)) {
             System.out.println("Please answer properly");
-            register();
+            return;
         }
 
-        customerList.add(new Customer(firstName,lastName,username,password));
+        FileHelper.makeFile("src/CSV/accounts.csv", "FirstName,LastName,Username,Password,Balance\n");
+        CUSTOMERS_LIST.add(new Customer(firstName,lastName,username,password));
 
     }
 }
