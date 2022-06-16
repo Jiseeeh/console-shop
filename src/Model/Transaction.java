@@ -1,19 +1,30 @@
 package Model;
 
 public class Transaction {
-    private final Double customerBalance;
-    private final Double productPrice;
+    private final Customer customer;
+    private final Product product;
+    private int productQuantity;
 
-    public Transaction(Double customerBalance, Double productPrice) {
-        this.customerBalance = customerBalance;
-        this.productPrice = productPrice;
+    public Transaction(Customer customer, Product product , int quantity) {
+        this.customer = customer;
+        this.product = product;
+        this.productQuantity = quantity;
     }
 
     public Double getCustomerBalance() {
-        return customerBalance;
+        return customer.getBalance();
     }
 
     public Double getProductPrice() {
-        return productPrice;
+        return product.getProductPrice() * product.getProductQuantity();
     }
+
+    public String getCustomerName () {
+        return customer.getFirstName() + " " + customer.getLastName();
+    }
+
+    public String getProductInfo () {
+        return productQuantity + "x of " + product.getProductName();
+    }
+
 }

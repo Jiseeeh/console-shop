@@ -3,7 +3,7 @@ package Model;
 public class Product {
     private final String PRODUCT_NAME;
     private final Double PRODUCT_PRICE;
-    private final Integer PRODUCT_QUANTITY;
+    private Integer PRODUCT_QUANTITY;
 
     public Product(String productName, Double productPrice, Integer productQuantity) {
         this.PRODUCT_NAME = productName;
@@ -21,5 +21,8 @@ public class Product {
 
     public Integer getProductQuantity() {
         return PRODUCT_QUANTITY;
+    }
+    public void setProductQuantity (Integer i) {
+        PRODUCT_QUANTITY = i;
     }
 }
