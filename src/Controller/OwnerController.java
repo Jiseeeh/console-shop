@@ -1,6 +1,5 @@
 package Controller;
 
-import Helper.ShopHelper;
 import Model.Customer;
 import Model.Owner;
 import Model.Product;
@@ -17,11 +16,12 @@ public class OwnerController {
     private final List<Transaction> OWNER_TRANSACTION_LIST = Owner.TRANSACTION_LIST;
     private final OwnerView OWNER_VIEW = new OwnerView();
     private final Scanner SCAN = new Scanner(System.in);
+
     public OwnerController(Owner owner) {
         OWNER_BLOCKED_CUSTOMERS_LIST = owner.getBlockedCustomersList();
     }
 
-    public void chooseFromDashboard () {
+    public void chooseFromDashboard() {
         while (true) {
             OWNER_VIEW.showOwnerDashboard();
             String input = SCAN.nextLine().trim();
@@ -35,12 +35,14 @@ public class OwnerController {
                 case 3 -> OWNER_VIEW.viewCustomerDetail(OWNER_CUSTOMER_LIST);
                 case 4 -> OWNER_VIEW.viewOwnerProducts(OWNER_PRODUCT_LIST);
                 case 5 -> blockACustomer();
-                case 6 -> {return;}
+                case 6 -> {
+                    return;
+                }
             }
         }
     }
 
-    public void addProduct () {
+    public void addProduct() {
         System.out.print("Enter the product name: ");
         String productName = SCAN.nextLine();
 
@@ -50,17 +52,18 @@ public class OwnerController {
         System.out.print("Enter the product quantity: ");
         Integer productQuantity = Integer.parseInt(SCAN.nextLine());
 
-        OWNER_PRODUCT_LIST.add(new Product(productName,productPrice,productQuantity));
+        OWNER_PRODUCT_LIST.add(new Product(productName, productPrice, productQuantity));
 
-        System.out.printf("%d %ss was added!\n",productQuantity,productName);
+        System.out.printf("%d %ss was added!\n", productQuantity, productName);
     }
-    public void blockACustomer () {
+
+    public void blockACustomer() {
         System.out.print("Enter the customer first name: ");
         String customerName = SCAN.nextLine();
 
         for (Customer customer : OWNER_CUSTOMER_LIST) {
             if (customer.getFirstName().equals(customerName)) {
-                System.out.printf("\n%s was successfully blocked!\n",customer.getFirstName());
+                System.out.printf("\n%s was successfully blocked!\n", customer.getFirstName());
 
                 OWNER_CUSTOMER_LIST.remove(customer);
                 OWNER_BLOCKED_CUSTOMERS_LIST.add(customer);
