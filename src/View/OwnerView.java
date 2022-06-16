@@ -21,7 +21,11 @@ public class OwnerView {
     }
 
     public void viewTransactions (List<Transaction> transactions) {
-        transactions.forEach(System.out::println);
+        transactions.forEach(transaction -> {
+            System.out.println("\n----------------------------");
+            System.out.println(transaction.getCustomerName() + " bought " + transaction.getProductInfo());
+            System.out.println("----------------------------\n");
+        });
     }
 
     public void viewCustomerDetail (List<Customer> customers) {
@@ -40,7 +44,7 @@ public class OwnerView {
             System.out.println("----------------------------");
             System.out.printf("""
                     Product name: %s
-                    Product price: %f
+                    Product price: %.1f
                     Product quantity: %d
                     """,product.getProductName(),product.getProductPrice(),product.getProductQuantity());
             System.out.println("----------------------------");

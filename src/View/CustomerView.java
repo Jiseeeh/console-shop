@@ -9,6 +9,7 @@ public class CustomerView {
                 1 -> Cash in
                 2 -> Go shopping (can add to cart or buy)
                 3 -> View Info
+                4 -> View balance
                 5 -> Logout
                 """);
         System.out.print(": ");
@@ -19,5 +20,9 @@ public class CustomerView {
                 Firstname : %s
                 Lastname : %s
                 """,customer.getFirstName(),customer.getLastName());
+    }
+
+    public void viewMyBalance(Customer customer) {
+        System.out.println(customer.getBalance());
     }
 }
