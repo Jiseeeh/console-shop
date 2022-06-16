@@ -12,7 +12,7 @@ public class OwnerView {
                 What do you want to do?
                 1 -> Add a product
                 2 -> View transactions
-                3 -> View customer details
+                3 -> View customers details
                 4 -> View your products
                 5 -> Block a customer
                 6 -> Logout
@@ -25,10 +25,25 @@ public class OwnerView {
     }
 
     public void viewCustomerDetail (List<Customer> customers) {
-        //customers.forEach(System.out::println);
+        customers.forEach(customer -> {
+            System.out.println("----------------------------");
+            System.out.printf("""
+                    Firstname: %s
+                    Lastname: %s
+                    """,customer.getFirstName(),customer.getLastName());
+            System.out.println("----------------------------");
+        });
     }
 
     public void viewOwnerProducts (List<Product> products) {
-        products.forEach(System.out::println);
+        products.forEach(product -> {
+            System.out.println("----------------------------");
+            System.out.printf("""
+                    Product name: %s
+                    Product price: %f
+                    Product quantity: %d
+                    """,product.getProductName(),product.getProductPrice(),product.getProductQuantity());
+            System.out.println("----------------------------");
+        });
     }
 }
