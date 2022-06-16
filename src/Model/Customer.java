@@ -16,7 +16,7 @@ public class Customer extends User {
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%.1f\n", this.getFirstName(),this.getLastName(),this.getUsername(),this.getPassword(),this.getBalance());
+        return String.format("%s,%s,%s,%s,%.1f", this.getFirstName(),this.getLastName(),this.getUsername(),this.getPassword(),this.getBalance());
     }
 
     public Double getBalance() {
