@@ -113,7 +113,8 @@ public class CustomerController {
             Transaction transaction = new Transaction(customer, chosenProduct);
 
             TransactionController transactionController = new TransactionController(transaction);
-            transactionController.startTransaction();
+            // if transaction failed
+            if (!transactionController.startTransaction()) return;
 
             TRANSACTION_LIST.add(transaction);
 

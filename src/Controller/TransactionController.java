@@ -11,18 +11,20 @@ public class TransactionController {
         this.transaction = transaction;
     }
 
-    public void startTransaction() {
+    public boolean startTransaction() {
         Customer customer = transaction.getCustomer();
         Product product = transaction.getProduct();
 
-        if (customer.getBalance() < product.getProductPrice()) {
+        if (customer.getBalance() < product.getProductPrice() * product.getBOUGHT_QUANTITY()) {
             System.out.println("You have insufficient amount of money. ");
-            return;
+            return false;
         }
 
         double newBalance = customer.getBalance() - product.getProductPrice() * product.getBOUGHT_QUANTITY();
         customer.setBalance(newBalance);
 
         System.out.println("Success! your new balance is " + newBalance);
+
+        return true;
     }
 }
