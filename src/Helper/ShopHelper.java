@@ -18,13 +18,16 @@ public class ShopHelper {
     private static final File ACCOUNTS_CSV = new File("src/CSV/accounts.csv");
     private static final File PRODUCTS_CSV = new File("src/CSV/products.csv");
     private static final File TRANSACTION_CSV = new File("src/CSV/transactions.csv");
+    private static final File CUSTOMER_CART_CSV = new File("src/CSV/customerCart.csv");
 
     public static void openShop() throws IOException {
         FileHelper.loadAccounts(ACCOUNTS_CSV);
         FileHelper.loadProducts(PRODUCTS_CSV);
+        FileHelper.loadCustomerCart(CUSTOMER_CART_CSV);
         FileHelper.loadTransactions(TRANSACTION_CSV);
         while (true) {
             System.out.println("""
+                    
                     Welcome! (Always exit here in option 3!)
                     1 -> Login
                     2 -> Register
@@ -68,7 +71,7 @@ public class ShopHelper {
     }
 
     private static void login() {
-        System.out.print("Enter your username: ");
+        System.out.print("\nEnter your username: ");
         String username = SCAN.nextLine();
 
         System.out.print("Enter your password: ");
@@ -77,21 +80,28 @@ public class ShopHelper {
         if (ValidationHelper.hasInvalidInput(username, password)) return;
 
         if (username.equals("owner") && password.equals("123")) {
-            OwnerController ownerController = new OwnerController(new Owner());
+            UIHelper.loginSuccess();
+
+            OwnerController ownerController = new OwnerController();
             ownerController.chooseFromDashboard();
             return;
         }
 
         for (Customer customer : ShopHelper.CUSTOMERS_LIST) {
             if (customer.getUsername().equals(username) && customer.getPassword().equals(password)) {
+                UIHelper.loginSuccess();
+
                 CustomerController customerController = new CustomerController(customer);
                 customerController.chooseFromDashboard();
+                return;
             }
         }
+
+        UIHelper.sleep(1, "No account found!");
     }
 
     private static void register() {
-        System.out.print("Enter your first name: ");
+        System.out.print("\nEnter your first name: ");
         String firstName = SCAN.nextLine();
 
         System.out.print("Enter your last name: ");
@@ -105,6 +115,7 @@ public class ShopHelper {
 
         if (ValidationHelper.hasInvalidInput(firstName, lastName, username, password)) return;
 
+        UIHelper.sleep(1, "Registration success!");
         CUSTOMERS_LIST.add(new Customer(firstName, lastName, username, password));
 
     }

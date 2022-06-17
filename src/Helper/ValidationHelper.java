@@ -36,7 +36,7 @@ public class ValidationHelper {
 
     public static void printNumberFormatExceptionMessage() {
         System.out.println("""
-                
+                                
                 |-------------------------------------------|
                 |*   Please enter the appropriate type!!   *|
                 |-------------------------------------------|
@@ -44,9 +44,9 @@ public class ValidationHelper {
         UIHelper.sleep(2, "Redirecting you back to the shop...");
     }
 
-    public static void printIndexOutOfBoundsExceptionMessage () {
+    public static void printIndexOutOfBoundsExceptionMessage() {
         System.out.println("""
-                
+                                
                 |-------------------------------------------|
                 |*   Please input from the range only!!!   *|
                 |-------------------------------------------|
@@ -54,7 +54,7 @@ public class ValidationHelper {
         UIHelper.sleep(2, "Redirecting you back to the shop...");
     }
 
-    public static boolean hasCustomers (List<Customer> customers) {
+    public static boolean hasCustomers(List<Customer> customers) {
         boolean result = true;
 
         if (customers.size() == 0) {
@@ -64,7 +64,7 @@ public class ValidationHelper {
         return result;
     }
 
-    public static boolean isCartEmpty (List<Product> products) {
+    public static boolean isCartEmpty(List<Product> products) {
         boolean result = false;
 
         if (products.size() == 0) {
