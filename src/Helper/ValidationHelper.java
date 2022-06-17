@@ -1,5 +1,10 @@
 package Helper;
 
+import Model.Customer;
+import Model.Product;
+
+import java.util.List;
+
 public class ValidationHelper {
     public static boolean hasInvalidInput(String... params) {
         // FIXME: 17 Jun 2022 
@@ -31,17 +36,41 @@ public class ValidationHelper {
 
     public static void printNumberFormatExceptionMessage() {
         System.out.println("""
+                
                 |-------------------------------------------|
                 |*   Please enter the appropriate type!!   *|
                 |-------------------------------------------|
                 """);
+        UIHelper.sleep(2, "Redirecting you back to the shop...");
     }
 
     public static void printIndexOutOfBoundsExceptionMessage () {
         System.out.println("""
+                
                 |-------------------------------------------|
-                |*   Please enter from the range only!!!   *|
+                |*   Please input from the range only!!!   *|
                 |-------------------------------------------|
                 """);
+        UIHelper.sleep(2, "Redirecting you back to the shop...");
+    }
+
+    public static boolean hasCustomers (List<Customer> customers) {
+        boolean result = true;
+
+        if (customers.size() == 0) {
+            UIHelper.sleep(1, "No customers for now!");
+            result = false;
+        }
+        return result;
+    }
+
+    public static boolean isCartEmpty (List<Product> products) {
+        boolean result = false;
+
+        if (products.size() == 0) {
+            UIHelper.sleep(1, "Your cart is empty!");
+            result = true;
+        }
+        return result;
     }
 }

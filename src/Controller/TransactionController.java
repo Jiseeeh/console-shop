@@ -1,5 +1,6 @@
 package Controller;
 
+import Helper.UIHelper;
 import Model.Customer;
 import Model.Product;
 import Model.Transaction;
@@ -23,8 +24,7 @@ public class TransactionController {
         double newBalance = customer.getBalance() - product.getProductPrice() * product.getBOUGHT_QUANTITY();
         customer.setBalance(newBalance);
 
-        System.out.println("Success! your new balance is " + newBalance);
-
+        UIHelper.sleep(1, String.format("Success! your new balance is P%.1f", newBalance));
         return true;
     }
 }
