@@ -16,7 +16,7 @@ public class ValidationHelper {
         for (String param : params) {
             if (param == null || param.trim().isEmpty()) {
                 result = true;
-                System.out.println("Please answer properly!");
+                UIHelper.sleep(1, "Please answer properly!");
                 break;
             }
         }
