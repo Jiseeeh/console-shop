@@ -7,7 +7,6 @@ import java.util.List;
 
 public class ValidationHelper {
     public static boolean hasInvalidInput(String... params) {
-        // FIXME: 17 Jun 2022 
         boolean result = false;
 
         for (String param : params) {

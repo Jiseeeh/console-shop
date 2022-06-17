@@ -82,9 +82,4 @@ public class OwnerController {
 
         System.out.println("\nNo user found!\n");
     }
-    //TODO: 15 Jun 2022
-    // view customer details
-    // block a user
-    // add product
-    // show transactions
 }

@@ -228,16 +228,7 @@ public class CustomerController {
 
         UIHelper.sleep(1, "Checkout done!");
 
-        // FIXME: 17 Jun 2022 
         FileHelper.updateCustomerCartCSV(customer.getFirstName());
         customerCart.clear();
     }
-
-    //TODO: 15 Jun 2022
-    // add to cart
-    // buy (process thru transaction model)
-    // cash in
-    // update their account
-    // check for products
-
 }
