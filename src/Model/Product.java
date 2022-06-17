@@ -13,9 +13,10 @@ public class Product {
     }
 
     @Override
-    public String toString () {
-        return String.format("%s,%.1f,%d", getProductName(),getProductPrice(),getProductQuantity());
+    public String toString() {
+        return String.format("%s,%.1f,%d", getProductName(), getProductPrice(), getProductQuantity());
     }
+
     public String getProductName() {
         return PRODUCT_NAME;
     }

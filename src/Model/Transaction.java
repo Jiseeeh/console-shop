@@ -10,9 +10,10 @@ public class Transaction {
     }
 
     @Override
-    public String toString () {
-        return String.format("%s,%s,%.1f,%d",customer.getFirstName(),product.getProductName(),product.getProductPrice(),product.getBOUGHT_QUANTITY());
+    public String toString() {
+        return String.format("%s,%s,%.1f,%d", customer.getFirstName(), product.getProductName(), product.getProductPrice(), product.getBOUGHT_QUANTITY());
     }
+
     public String getProductInfo() {
         return product.getProductQuantity() + "x of " + product.getProductName();
     }
