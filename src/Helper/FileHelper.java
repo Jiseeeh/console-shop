@@ -21,7 +21,7 @@ public class FileHelper {
                 if (file.createNewFile()) writeToFile(file, header);
             } else {
                 if (file.createNewFile()) writeToFile(file, header);
-                System.out.println();
+                System.out.print("");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -120,6 +120,101 @@ public class FileHelper {
                 TRANSACTION_LIST.add(new Transaction(customer, product));
             }
 
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadCustomerCart(File CUSTOMER_CART_CSV) {
+        if (!CUSTOMER_CART_CSV.exists()) return;
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(CUSTOMER_CART_CSV))) {
+            String line;
+            Customer customer = null;
+            List<Product> customerCart = null;
+            Product product = null;
+
+            String header = bufferedReader.readLine(); // eats the header
+            if (header == null) return;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] data = line.split(",");
+
+                String customerName = data[0];
+                String productName = data[1];
+
+                for (Customer c : CUSTOMERS_LIST) {
+                    if (c.getFirstName().equals(customerName)) {
+                        customer = c;
+                        customerCart = customer.getMyCart();
+                    }
+                }
+
+                for (Product p : PRODUCT_LIST) {
+                    if (p.getProductName().equals(productName)) product = p;
+                }
+
+                if (customer == null || product == null || customerCart == null) return;
+
+                Product loadedProduct = new Product(productName, Double.parseDouble(data[2]), product.getProductQuantity());
+
+                loadedProduct.setBOUGHT_QUANTITY(Integer.valueOf(data[3]));
+                customerCart.add(loadedProduct);
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateCustomerCartCSV(String username) {
+        File tempFile = new File("src/CSV/tempCustomerCart.csv");
+        File CUSTOMER_CART_CSV = new File("src/CSV/customerCart.csv");
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(CUSTOMER_CART_CSV))) {
+            if (tempFile.createNewFile()) {
+                FileWriter writer = new FileWriter(tempFile, true);
+
+                String line;
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    String[] data = line.split(",");
+                    String customerName = data[0];
+
+                    if (customerName.equals(username)) continue;
+
+                    writer.write(line + "\n");
+                }
+                writer.close();
+
+                replaceFile(tempFile.toString(), CUSTOMER_CART_CSV.toString());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void replaceFile(String pathOfOldFile, String pathOfNewFile) {
+        String sCurrentLine = "";
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(pathOfOldFile));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(pathOfNewFile));
+
+            while ((sCurrentLine = br.readLine()) != null) {
+                bw.write(sCurrentLine);
+                bw.newLine();
+            }
+
+            br.close();
+            bw.close();
+
+            // delete the old file
+            File org = new File(pathOfOldFile);
+            org.delete();
 
         } catch (IOException e) {
             e.printStackTrace();
