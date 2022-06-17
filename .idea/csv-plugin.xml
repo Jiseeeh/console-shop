@@ -10,7 +10,21 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\CSV\customerCart.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\CSV\products.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\CSV\transactions.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
