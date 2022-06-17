@@ -17,6 +17,7 @@ public class CustomerController {
     private static final List<Product> OWNER_PRODUCT_LIST = Owner.PRODUCT_LIST;
     private static final List<Transaction> TRANSACTION_LIST = Owner.TRANSACTION_LIST;
     private final List<Product> customerCart;
+    private final List<Product> CUSTOMER_BOUGHT_PRODUCTS;
     private final Scanner SCAN = new Scanner(System.in);
     private final Customer customer;
     private final CustomerView customerView = new CustomerView();
@@ -24,6 +25,7 @@ public class CustomerController {
     public CustomerController(Customer customer) {
         this.customer = customer;
         customerCart = customer.getMyCart();
+        CUSTOMER_BOUGHT_PRODUCTS = customer.getBoughtProducts();
     }
 
     public void chooseFromDashboard() {
@@ -43,7 +45,8 @@ public class CustomerController {
                 case 5 -> customerView.viewMyCart(customerCart);
                 case 6 -> clearCart();
                 case 7 -> checkOut();
-                case 8 -> {
+                case 8 -> customerView.viewMyBoughtProducts(CUSTOMER_BOUGHT_PRODUCTS);
+                case 9 -> {
                     return;
                 }
             }
@@ -185,6 +188,7 @@ public class CustomerController {
         if (!transactionController.startTransaction()) return;
 
         TRANSACTION_LIST.add(transaction);
+        CUSTOMER_BOUGHT_PRODUCTS.add(chosenProduct);
 
         ProductController productController = new ProductController(chosenProduct);
         productController.updateProductQuantity(qty);
@@ -227,11 +231,12 @@ public class CustomerController {
 
 
             TRANSACTION_LIST.add(transaction);
+            CUSTOMER_BOUGHT_PRODUCTS.add(product);
 
             ProductController productController = new ProductController(product);
             productController.updateProduct();
 
-            FileHelper.makeFile("src/CSV/transactions.csv", "CustomerName,ProductName,ProductPrice,ProductQuantity");
+            FileHelper.makeFile("src/CSV/transactions.csv", "CustomerName,ProductName,ProductPrice,ProductQuantity\n");
             FileHelper.writeTransactions(transaction + "\n");
         }
 
