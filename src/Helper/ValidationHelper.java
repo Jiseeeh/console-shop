@@ -6,6 +6,10 @@ import Model.Product;
 import java.util.List;
 
 public class ValidationHelper {
+    /*
+     * @param params... {n number of params to be checked.}
+     * @return boolean {returns true if one of the params is null or empty.}
+     */
     public static boolean hasInvalidInput(String... params) {
         boolean result = false;
 
@@ -20,6 +24,10 @@ public class ValidationHelper {
         return result;
     }
 
+    /*
+     * @param input {User input to be checked.}
+     * @return boolean {returns true if the input has letters.}
+     */
     public static boolean hasLetterInput(String input) {
         if (input.matches("[A-Za-z]*")) {
             System.out.println("""

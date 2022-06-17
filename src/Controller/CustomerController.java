@@ -55,9 +55,11 @@ public class CustomerController {
         try {
             int max = 1000;
             int min = 500;
+
             System.out.println("Enter the amount of money (Min: 500 ; Max: 1000)");
             double inputMoney = Double.parseDouble(SCAN.nextLine());
 
+            // Calls the cashIn method again if the money was out of range.
             if (inputMoney < min || inputMoney > max) {
                 System.out.println("Out of range!");
                 cashIn();
@@ -65,6 +67,7 @@ public class CustomerController {
                 UIHelper.sleep(1, String.format("Success! you cashed in P%.1f", inputMoney));
                 customer.setBalance(customer.getBalance() + inputMoney);
             }
+            // Code would reach here if the user input a numeric char.
         } catch (NumberFormatException e) {
             ValidationHelper.printNumberFormatExceptionMessage();
             cashIn();
@@ -74,6 +77,7 @@ public class CustomerController {
     private void goShopping() {
         Product chosenProduct;
 
+        //?  This is for java to immediately exit the method if there are no products.
         if (OWNER_PRODUCT_LIST.size() == 0) {
             UIHelper.sleep(1, "No Available products as of now!");
             return;
@@ -140,8 +144,10 @@ public class CustomerController {
                 return;
             }
 
+            // ? sets the new quantity of that product
             chosenProduct.setProductQuantity(chosenProduct.getProductQuantity() - qty);
 
+            // ? make and write the file to where that product will be stored.
             FileHelper.makeFile("src/CSV/customerCart.csv", "CustomerName,ProductName,ProductPrice,ProductBoughtQuantity\n");
             FileHelper.writeToFile(new File("src/CSV/customerCart.csv"), String.format("%s,%s,%.1f,%d\n", customer.getFirstName(), chosenProduct.getProductName(), chosenProduct.getProductPrice(), chosenProduct.getBOUGHT_QUANTITY()));
 
@@ -165,6 +171,7 @@ public class CustomerController {
         int qty = Integer.parseInt(SCAN.nextLine());
         chosenProduct.setBOUGHT_QUANTITY(qty);
 
+        //? This is for when the user input 0 , we set it to 1 to avoid multiplying to 0
         if (qty == 0) qty = 1;
         if (qty > chosenProduct.getProductQuantity()) {
             UIHelper.sleep(1, "We don't have enough stock for that quantity!");
@@ -172,9 +179,9 @@ public class CustomerController {
         }
 
         Transaction transaction = new Transaction(customer, chosenProduct);
-
         TransactionController transactionController = new TransactionController(transaction);
-        // if transaction failed
+
+        //  if transaction failed
         if (!transactionController.startTransaction()) return;
 
         TRANSACTION_LIST.add(transaction);
@@ -183,6 +190,7 @@ public class CustomerController {
         productController.updateProductQuantity(qty);
         productController.updateProduct();
 
+        // ? This is for making/writing to transactionsCSV to load later when the program runs again
         FileHelper.makeFile("src/CSV/transactions.csv", "CustomerName,ProductName,ProductPrice,ProductQuantity\n");
         FileHelper.writeTransactions(transaction + "\n");
     }
@@ -195,7 +203,7 @@ public class CustomerController {
             return;
         }
 
-
+        // ? This totals the products from the customer cart
         for (Product product : customerCart) {
             if (product.getProductQuantity() <= 0) {
                 UIHelper.sleep(1, "No stocks for " + product.getProductName());
@@ -209,6 +217,7 @@ public class CustomerController {
             return;
         }
 
+        // ? Loops throughout the customerCart and make transactions in each of the products
         for (Product product : customerCart) {
             Transaction transaction = new Transaction(customer, product);
             TransactionController transactionController = new TransactionController(transaction);
@@ -228,6 +237,7 @@ public class CustomerController {
 
         UIHelper.sleep(1, "Checkout done!");
 
+        // ? Updates the file (customerCart.csv) by removing the customer who just checked out.
         FileHelper.updateCustomerCartCSV(customer.getFirstName());
         customerCart.clear();
     }
