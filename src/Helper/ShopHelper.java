@@ -21,13 +21,12 @@ public class ShopHelper {
     private static final File CUSTOMER_CART_CSV = new File("src/CSV/customerCart.csv");
 
     public static void openShop() throws IOException {
-        FileHelper.loadAccounts(ACCOUNTS_CSV);
-        FileHelper.loadProducts(PRODUCTS_CSV);
-        FileHelper.loadCustomerCart(CUSTOMER_CART_CSV);
-        FileHelper.loadTransactions(TRANSACTION_CSV);
+        // ? loads the files (if they're present) before opening the shop.
+        loadFiles();
+
         while (true) {
             System.out.println("""
-                    
+                                        
                     Welcome! (Always exit here in option 3!)
                     1 -> Login
                     2 -> Register
@@ -44,21 +43,7 @@ public class ShopHelper {
                 case 1 -> ShopHelper.login();
                 case 2 -> ShopHelper.register();
                 case 3 -> {
-                    if (ACCOUNTS_CSV.exists()) ACCOUNTS_CSV.delete();
-                    FileHelper.makeFile(ACCOUNTS_CSV.toString(), "FirstName,LastName,Username,Password,Balance\n");
-
-                    if (PRODUCTS_CSV.exists()) PRODUCTS_CSV.delete();
-                    FileHelper.makeFile(PRODUCTS_CSV.toString(), "ProductName,ProductPrice,ProductQuantity\n");
-
-                    for (Customer customer : CUSTOMERS_LIST) {
-                        FileHelper.writeToFile(ACCOUNTS_CSV, customer + "\n");
-                    }
-
-                    for (Product product : PRODUCT_LIST) {
-                        if (product.getProductQuantity() != 0) {
-                            FileHelper.writeToFile(PRODUCTS_CSV, product + "\n");
-                        }
-                    }
+                    updateFilesOnExit();
                     return;
                 }
                 default -> {
@@ -66,6 +51,31 @@ public class ShopHelper {
                             Please choose from 1-3 only!
                             """);
                 }
+            }
+        }
+    }
+
+    private static void loadFiles() {
+        FileHelper.loadAccounts(ACCOUNTS_CSV);
+        FileHelper.loadProducts(PRODUCTS_CSV);
+        FileHelper.loadCustomerCart(CUSTOMER_CART_CSV);
+        FileHelper.loadTransactions(TRANSACTION_CSV);
+    }
+
+    private static void updateFilesOnExit() {
+        if (ACCOUNTS_CSV.exists()) ACCOUNTS_CSV.delete();
+        FileHelper.makeFile(ACCOUNTS_CSV.toString(), "FirstName,LastName,Username,Password,Balance\n");
+
+        if (PRODUCTS_CSV.exists()) PRODUCTS_CSV.delete();
+        FileHelper.makeFile(PRODUCTS_CSV.toString(), "ProductName,ProductPrice,ProductQuantity\n");
+
+        for (Customer customer : CUSTOMERS_LIST) {
+            FileHelper.writeToFile(ACCOUNTS_CSV, customer + "\n");
+        }
+
+        for (Product product : PRODUCT_LIST) {
+            if (product.getProductQuantity() != 0) {
+                FileHelper.writeToFile(PRODUCTS_CSV, product + "\n");
             }
         }
     }
@@ -117,6 +127,5 @@ public class ShopHelper {
 
         UIHelper.sleep(1, "Registration success!");
         CUSTOMERS_LIST.add(new Customer(firstName, lastName, username, password));
-
     }
 }
