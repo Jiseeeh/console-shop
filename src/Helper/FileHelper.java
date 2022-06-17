@@ -198,7 +198,7 @@ public class FileHelper {
     }
 
     private static void replaceFile(String pathOfOldFile, String pathOfNewFile) {
-        String sCurrentLine = "";
+        String sCurrentLine;
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(pathOfOldFile));
