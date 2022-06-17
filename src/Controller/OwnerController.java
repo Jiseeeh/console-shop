@@ -40,6 +40,11 @@ public class OwnerController {
                 case 6 -> {
                     return;
                 }
+                default -> {
+                    System.out.println("""
+                            Please enter from 1-6 only!
+                            """);
+                }
             }
         }
     }
