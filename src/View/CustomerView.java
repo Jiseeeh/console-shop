@@ -19,7 +19,8 @@ public class CustomerView {
                 5 -> View my cart
                 6 -> Clear my cart
                 7 -> Checkout
-                8 -> Logout
+                8 -> View my bought products
+                9 -> Logout
                 """);
         System.out.print(": ");
     }
@@ -40,7 +41,7 @@ public class CustomerView {
     public void viewMyCart(List<Product> customerCart) {
         if (ValidationHelper.isCartEmpty(customerCart)) return;
 
-        System.out.println("** YOUR CART **");
+        System.out.println("\n** YOUR CART **");
         customerCart.forEach(cart -> {
             System.out.println("\n----------------------------");
             System.out.printf("""
@@ -48,6 +49,24 @@ public class CustomerView {
                     Product price: %.1f
                     Quantity: %d
                     """, cart.getProductName(), cart.getProductPrice(), cart.getBOUGHT_QUANTITY());
+            System.out.println("----------------------------");
+        });
+    }
+
+    public void viewMyBoughtProducts(List<Product> boughtProducts) {
+        if (boughtProducts.size() == 0) {
+            UIHelper.sleep(1, "You haven't bought any products!");
+            return;
+        }
+
+        System.out.println("\n** Your Bought Products **");
+        boughtProducts.forEach(boughtProduct -> {
+            System.out.println("\n----------------------------");
+            System.out.printf("""
+                    Product name: %s
+                    Product price: %.1f
+                    Bought Quantity: %d
+                    """, boughtProduct.getProductName(), boughtProduct.getProductPrice(), boughtProduct.getBOUGHT_QUANTITY());
             System.out.println("----------------------------");
         });
     }
