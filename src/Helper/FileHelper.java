@@ -12,7 +12,6 @@ public class FileHelper {
     private static final List<Customer> CUSTOMERS_LIST = Owner.CUSTOMERS_LIST;
     private static final List<Product> PRODUCT_LIST = Owner.PRODUCT_LIST;
     private static final List<Transaction> TRANSACTION_LIST = Owner.TRANSACTION_LIST;
-    private static List<Product> CUSTOMER_BOUGHT_PRODUCTS;
 
     /*
      * @param filePath {where you want your file to go.}
@@ -133,7 +132,7 @@ public class FileHelper {
 
                 product.setBOUGHT_QUANTITY(Integer.valueOf(data[3]));
 
-                CUSTOMER_BOUGHT_PRODUCTS = customer.getBoughtProducts();
+                List<Product> CUSTOMER_BOUGHT_PRODUCTS = customer.getBoughtProducts();
                 CUSTOMER_BOUGHT_PRODUCTS.add(product);
             }
 
