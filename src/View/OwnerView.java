@@ -56,9 +56,8 @@ public class OwnerView {
         }
 
         products.forEach(product -> {
-            System.out.println("----------------------------");
-            System.out.printf("""
-                                        
+            System.out.println("\n----------------------------");
+            System.out.printf("""    
                     Product name: %s
                     Product price: %.1f
                     Product quantity: %d

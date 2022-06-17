@@ -73,7 +73,7 @@ public class OwnerController {
 
         for (Customer customer : OWNER_CUSTOMER_LIST) {
             if (customer.getFirstName().equals(customerName)) {
-                System.out.printf("\n%s was successfully blocked!\n", customer.getFirstName());
+                UIHelper.sleep(1, String.format("%s was successfully removed!", customer.getFirstName()));
 
                 OWNER_CUSTOMER_LIST.remove(customer);
                 return;
