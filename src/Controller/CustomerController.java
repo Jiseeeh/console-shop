@@ -135,6 +135,9 @@ public class CustomerController {
         } catch (NumberFormatException e) {
             ValidationHelper.printNumberFormatExceptionMessage();
             goShopping();
+        } catch (IndexOutOfBoundsException e) {
+            ValidationHelper.printIndexOutOfBoundsExceptionMessage();
+            goShopping();
         }
     }
 

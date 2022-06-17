@@ -36,4 +36,12 @@ public class ValidationHelper {
                 |-------------------------------------------|
                 """);
     }
+
+    public static void printIndexOutOfBoundsExceptionMessage () {
+        System.out.println("""
+                |-------------------------------------------|
+                |*   Please enter from the range only!!!   *|
+                |-------------------------------------------|
+                """);
+    }
 }
