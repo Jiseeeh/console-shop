@@ -1,33 +1,39 @@
 package Helper;
 
 public class ValidationHelper {
-    public static boolean hasInvalidInput(String...params) {
-        int truthCount = 0;
-
-        if (isNull(params)) truthCount += 1;
-        if (isSpace(params)) truthCount += 1;
-
-        return truthCount == 2;
-    }
-
-    public static boolean isNull (String... params) {
+    public static boolean hasInvalidInput(String... params) {
+        // FIXME: 17 Jun 2022 
         boolean result = false;
 
         for (String param : params) {
-            if (!(param == null)) continue;
-            result = true;
+            if (param == null || param.trim().isEmpty()) {
+                result = true;
+                System.out.println("Please answer properly!");
+                break;
+            }
         }
+
         return result;
     }
 
-    public static boolean isSpace (String...params) {
-        boolean result = false;
-
-        for (String param : params){
-            if (!param.equals(" ")) continue;
-            result = true;
-            break;
+    public static boolean hasLetterInput(String input) {
+        if (input.matches("[A-Za-z]*")) {
+            System.out.println("""
+                                            
+                    |-----------------------------------|
+                    |*   Please enter numbers only!!   *|
+                    |-----------------------------------|
+                    """);
+            return true;
         }
-        return result;
+        return false;
+    }
+
+    public static void printNumberFormatExceptionMessage() {
+        System.out.println("""
+                |-------------------------------------------|
+                |*   Please enter the appropriate type!!   *|
+                |-------------------------------------------|
+                """);
     }
 }

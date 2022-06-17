@@ -92,6 +92,8 @@ public class FileHelper {
     }
 
     public static void loadTransactions(File TRANSACTIONS_CSV) {
+        if (!TRANSACTIONS_CSV.exists()) return;
+
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(TRANSACTIONS_CSV))) {
             String line;
             Customer customer = null;

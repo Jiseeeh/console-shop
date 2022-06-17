@@ -2,6 +2,7 @@ package Controller;
 
 import Helper.FileHelper;
 import Helper.UIHelper;
+import Helper.ValidationHelper;
 import Model.Customer;
 import Model.Owner;
 import Model.Product;
@@ -30,7 +31,7 @@ public class CustomerController {
 
             String input = SCAN.nextLine();
 
-            //VALIDATION
+            if (ValidationHelper.hasLetterInput(input)) continue;
 
             int choice = Integer.parseInt(input);
 
@@ -49,17 +50,22 @@ public class CustomerController {
     }
 
     private void cashIn() {
-        int max = 1000;
-        int min = 500;
-        System.out.println("Enter the amount of money (Min: 500 ; Max: 1000)");
-        double inputMoney = Double.parseDouble(SCAN.nextLine());
+        try {
+            int max = 1000;
+            int min = 500;
+            System.out.println("Enter the amount of money (Min: 500 ; Max: 1000)");
+            double inputMoney = Double.parseDouble(SCAN.nextLine());
 
-        if (inputMoney < min || inputMoney > max) {
-            System.out.println("Out of range!");
+            if (inputMoney < min || inputMoney > max) {
+                System.out.println("Out of range!");
+                cashIn();
+            } else {
+                System.out.println("\nSuccess!\n");
+                customer.setBalance(customer.getBalance() + inputMoney);
+            }
+        } catch (NumberFormatException e) {
+            ValidationHelper.printNumberFormatExceptionMessage();
             cashIn();
-        } else {
-            System.out.println("\nSuccess!\n");
-            customer.setBalance(customer.getBalance() + inputMoney);
         }
     }
 
@@ -86,61 +92,71 @@ public class CustomerController {
             System.out.println("----------------------------");
             i++;
         }
+        try {
+            System.out.print("Enter the product number: ");
+            int productNumber = Integer.parseInt(SCAN.nextLine());
+            chosenProduct = OWNER_PRODUCT_LIST.get(productNumber);
 
-        System.out.print("Enter the product number: ");
-        int productNumber = Integer.parseInt(SCAN.nextLine());
-        chosenProduct = OWNER_PRODUCT_LIST.get(productNumber);
+            System.out.println("""
+                    Do you want to add to cart or buy now?
+                    1 -> Add to cart
+                    2 -> Buy now
+                    """);
 
-        System.out.println("""
-                Do you want to add to cart or buy now?
-                1 -> Add to cart
-                2 -> Buy now
-                """);
+            int choice = Integer.parseInt(SCAN.nextLine());
 
-        int choice = Integer.parseInt(SCAN.nextLine());
+            if (choice == 1) addToCart(chosenProduct);
+            else {
+                System.out.print("Enter quantity: ");
+                int qty = Integer.parseInt(SCAN.nextLine());
+                chosenProduct.setBOUGHT_QUANTITY(qty);
 
-        if (choice == 1) addToCart(chosenProduct);
-        else {
+                if (qty == 0) qty = 1;
+                if (qty > chosenProduct.getProductQuantity()) {
+                    System.out.println("We don't have enough stock for that quantity");
+                    return;
+                }
+
+                Transaction transaction = new Transaction(customer, chosenProduct);
+
+                TransactionController transactionController = new TransactionController(transaction);
+                // if transaction failed
+                if (!transactionController.startTransaction()) return;
+
+                TRANSACTION_LIST.add(transaction);
+
+                ProductController productController = new ProductController(chosenProduct);
+                productController.updateProductQuantity(qty);
+                productController.updateProduct();
+
+                FileHelper.makeFile("src/CSV/transactions.csv", "CustomerName,ProductName,ProductPrice,ProductQuantity\n");
+                FileHelper.writeTransactions(transaction + "\n");
+            }
+        } catch (NumberFormatException e) {
+            ValidationHelper.printNumberFormatExceptionMessage();
+            goShopping();
+        }
+    }
+
+    private void addToCart(Product chosenProduct) {
+        try {
             System.out.print("Enter quantity: ");
             int qty = Integer.parseInt(SCAN.nextLine());
             chosenProduct.setBOUGHT_QUANTITY(qty);
 
-            if (qty == 0) qty = 1;
             if (qty > chosenProduct.getProductQuantity()) {
                 System.out.println("We don't have enough stock for that quantity");
                 return;
             }
 
-            Transaction transaction = new Transaction(customer, chosenProduct);
+            chosenProduct.setProductQuantity(chosenProduct.getProductQuantity() - qty);
 
-            TransactionController transactionController = new TransactionController(transaction);
-            // if transaction failed
-            if (!transactionController.startTransaction()) return;
+            customerCart.add(chosenProduct);
 
-            TRANSACTION_LIST.add(transaction);
-
-            ProductController productController = new ProductController(chosenProduct);
-            productController.updateProductQuantity(qty);
-            productController.updateProduct();
-
-            FileHelper.makeFile("src/CSV/transactions.csv", "CustomerName,ProductName,ProductPrice,ProductQuantity\n");
-            FileHelper.writeTransactions(transaction + "\n");
+        } catch (NumberFormatException e) {
+            ValidationHelper.printNumberFormatExceptionMessage();
+            addToCart(chosenProduct);
         }
-    }
-
-    private void addToCart(Product chosenProduct) {
-        System.out.print("Enter quantity: ");
-        int qty = Integer.parseInt(SCAN.nextLine());
-        chosenProduct.setBOUGHT_QUANTITY(qty);
-
-        if (qty > chosenProduct.getProductQuantity()) {
-            System.out.println("We don't have enough stock for that quantity");
-            return;
-        }
-
-        chosenProduct.setProductQuantity(chosenProduct.getProductQuantity() - qty);
-
-        customerCart.add(chosenProduct);
     }
 
     private void checkOut() {

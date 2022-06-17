@@ -33,7 +33,7 @@ public class ShopHelper {
 
             String input = SCAN.nextLine();
 
-            // Validation
+            if (ValidationHelper.hasLetterInput(input)) continue;
 
             int choice = Integer.parseInt(input);
 
@@ -58,6 +58,11 @@ public class ShopHelper {
                     }
                     return;
                 }
+                default -> {
+                    System.out.println("""
+                            Please choose from 1-3 only!
+                            """);
+                }
             }
         }
     }
@@ -69,6 +74,7 @@ public class ShopHelper {
         System.out.print("Enter your password: ");
         String password = SCAN.nextLine();
 
+        if (ValidationHelper.hasInvalidInput(username, password)) return;
 
         if (username.equals("owner") && password.equals("123")) {
             OwnerController ownerController = new OwnerController(new Owner());
@@ -97,10 +103,7 @@ public class ShopHelper {
         System.out.print("Enter your password: ");
         String password = SCAN.nextLine();
 
-        if (ValidationHelper.hasInvalidInput(firstName, lastName, username, password)) {
-            System.out.println("Please answer properly");
-            return;
-        }
+        if (ValidationHelper.hasInvalidInput(firstName, lastName, username, password)) return;
 
         CUSTOMERS_LIST.add(new Customer(firstName, lastName, username, password));
 

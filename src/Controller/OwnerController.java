@@ -1,5 +1,6 @@
 package Controller;
 
+import Helper.ValidationHelper;
 import Model.Customer;
 import Model.Owner;
 import Model.Product;
@@ -26,7 +27,8 @@ public class OwnerController {
             OWNER_VIEW.showOwnerDashboard();
             String input = SCAN.nextLine().trim();
 
-            // Validation here
+            if (ValidationHelper.hasLetterInput(input)) continue;
+
             int choice = Integer.parseInt(input);
 
             switch (choice) {
@@ -43,23 +45,30 @@ public class OwnerController {
     }
 
     public void addProduct() {
-        System.out.print("Enter the product name: ");
-        String productName = SCAN.nextLine();
+        try {
+            System.out.print("Enter the product name: ");
+            String productName = SCAN.nextLine();
 
-        System.out.print("Enter the product price: ");
-        Double productPrice = Double.parseDouble(SCAN.nextLine());
+            System.out.print("Enter the product price: ");
+            Double productPrice = Double.parseDouble(SCAN.nextLine());
 
-        System.out.print("Enter the product quantity: ");
-        Integer productQuantity = Integer.parseInt(SCAN.nextLine());
+            System.out.print("Enter the product quantity: ");
+            Integer productQuantity = Integer.parseInt(SCAN.nextLine());
 
-        OWNER_PRODUCT_LIST.add(new Product(productName, productPrice, productQuantity));
+            OWNER_PRODUCT_LIST.add(new Product(productName, productPrice, productQuantity));
 
-        System.out.printf("%d %ss was added!\n", productQuantity, productName);
+            System.out.printf("%d %ss was added!\n", productQuantity, productName);
+        } catch (NumberFormatException e) {
+            ValidationHelper.printNumberFormatExceptionMessage();
+            addProduct();
+        }
     }
 
     public void blockACustomer() {
         System.out.print("Enter the customer first name: ");
         String customerName = SCAN.nextLine();
+
+        if (ValidationHelper.hasInvalidInput(customerName)) return;
 
         for (Customer customer : OWNER_CUSTOMER_LIST) {
             if (customer.getFirstName().equals(customerName)) {
