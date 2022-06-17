@@ -46,11 +46,7 @@ public class ShopHelper {
                     updateFilesOnExit();
                     return;
                 }
-                default -> {
-                    System.out.println("""
-                            Please choose from 1-3 only!
-                            """);
-                }
+                default -> UIHelper.sleep(1, "Please choose from 1-3 only!");
             }
         }
     }
