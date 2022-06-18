@@ -6,15 +6,15 @@ import Model.Product;
 import Model.Transaction;
 
 public class TransactionController {
-    private final Transaction transaction;
+    private final Transaction TRANSACTION;
 
     public TransactionController(Transaction transaction) {
-        this.transaction = transaction;
+        this.TRANSACTION = transaction;
     }
 
     public boolean startTransaction() {
-        Customer customer = transaction.getCustomer();
-        Product product = transaction.getProduct();
+        Customer customer = TRANSACTION.getCustomer();
+        Product product = TRANSACTION.getProduct();
 
         if (customer.getBalance() < product.getProductPrice() * product.getBOUGHT_QUANTITY()) {
             System.out.println("You have insufficient amount of money. ");

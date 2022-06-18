@@ -16,21 +16,21 @@ import java.util.Scanner;
 public class CustomerController {
     private static final List<Product> OWNER_PRODUCT_LIST = Owner.PRODUCT_LIST;
     private static final List<Transaction> TRANSACTION_LIST = Owner.TRANSACTION_LIST;
-    private final List<Product> customerCart;
+    private final List<Product> CUSTOMER_CART;
     private final List<Product> CUSTOMER_BOUGHT_PRODUCTS;
     private final Scanner SCAN = new Scanner(System.in);
-    private final Customer customer;
-    private final CustomerView customerView = new CustomerView();
+    private final Customer CUSTOMER;
+    private final CustomerView CUSTOMER_VIEW = new CustomerView();
 
     public CustomerController(Customer customer) {
-        this.customer = customer;
-        customerCart = customer.getMyCart();
+        this.CUSTOMER = customer;
+        CUSTOMER_CART = customer.getMyCart();
         CUSTOMER_BOUGHT_PRODUCTS = customer.getBoughtProducts();
     }
 
     public void chooseFromDashboard() {
         while (true) {
-            customerView.showCustomerDashboard();
+            CUSTOMER_VIEW.showCustomerDashboard();
             String input = SCAN.nextLine();
 
             if (ValidationHelper.hasLetterInput(input)) continue;
@@ -40,12 +40,12 @@ public class CustomerController {
             switch (choice) {
                 case 1 -> cashIn();
                 case 2 -> goShopping();
-                case 3 -> customerView.viewMyInfo(customer);
-                case 4 -> customerView.viewMyBalance(customer);
-                case 5 -> customerView.viewMyCart(customerCart);
+                case 3 -> CUSTOMER_VIEW.viewMyInfo(CUSTOMER);
+                case 4 -> CUSTOMER_VIEW.viewMyBalance(CUSTOMER);
+                case 5 -> CUSTOMER_VIEW.viewMyCart(CUSTOMER_CART);
                 case 6 -> clearCart();
                 case 7 -> checkOut();
-                case 8 -> customerView.viewMyBoughtProducts(CUSTOMER_BOUGHT_PRODUCTS);
+                case 8 -> CUSTOMER_VIEW.viewMyBoughtProducts(CUSTOMER_BOUGHT_PRODUCTS);
                 case 9 -> {
                     return;
                 }
@@ -64,11 +64,11 @@ public class CustomerController {
 
             // Calls the cashIn method again if the money was out of range.
             if (inputMoney < min || inputMoney > max) {
-                System.out.println("Out of range!");
+                UIHelper.sleep(1, "Out of range!");
                 cashIn();
             } else {
                 UIHelper.sleep(1, String.format("Success! you cashed in P%.1f", inputMoney));
-                customer.setBalance(customer.getBalance() + inputMoney);
+                CUSTOMER.setBalance(CUSTOMER.getBalance() + inputMoney);
             }
             // Code would reach here if the user input a numeric char.
         } catch (NumberFormatException e) {
@@ -143,7 +143,7 @@ public class CustomerController {
             chosenProduct.setBOUGHT_QUANTITY(qty);
 
             if (qty > chosenProduct.getProductQuantity()) {
-                System.out.println("We don't have enough stock for that quantity");
+                UIHelper.sleep(1, "We don't have enough stock for that quantity!");
                 return;
             }
 
@@ -152,9 +152,9 @@ public class CustomerController {
 
             // ? make and write the file to where that product will be stored.
             FileHelper.makeFile("src/CSV/customerCart.csv", "CustomerName,ProductName,ProductPrice,ProductBoughtQuantity\n");
-            FileHelper.writeToFile(new File("src/CSV/customerCart.csv"), String.format("%s,%s,%.1f,%d\n", customer.getFirstName(), chosenProduct.getProductName(), chosenProduct.getProductPrice(), chosenProduct.getBOUGHT_QUANTITY()));
+            FileHelper.writeToFile(new File("src/CSV/customerCart.csv"), String.format("%s,%s,%.1f,%d\n", CUSTOMER.getFirstName(), chosenProduct.getProductName(), chosenProduct.getProductPrice(), chosenProduct.getBOUGHT_QUANTITY()));
 
-            customerCart.add(chosenProduct);
+            CUSTOMER_CART.add(chosenProduct);
 
         } catch (NumberFormatException e) {
             ValidationHelper.printNumberFormatExceptionMessage();
@@ -163,10 +163,10 @@ public class CustomerController {
     }
 
     private void clearCart() {
-        if (ValidationHelper.isCartEmpty(customerCart)) return;
+        if (ValidationHelper.isCartEmpty(CUSTOMER_CART)) return;
 
         UIHelper.sleep(1, "Cart successfully cleared!");
-        customerCart.clear();
+        CUSTOMER_CART.clear();
     }
 
     private void buyNow(Product chosenProduct) {
@@ -181,7 +181,7 @@ public class CustomerController {
             return;
         }
 
-        Transaction transaction = new Transaction(customer, chosenProduct);
+        Transaction transaction = new Transaction(CUSTOMER, chosenProduct);
         TransactionController transactionController = new TransactionController(transaction);
 
         //  if transaction failed
@@ -202,13 +202,13 @@ public class CustomerController {
     private void checkOut() {
         int totalPrice = 0;
 
-        if (customerCart.size() == 0) {
+        if (CUSTOMER_CART.size() == 0) {
             UIHelper.sleep(1, "You have nothing in cart!");
             return;
         }
 
         // ? This totals the products from the customer cart
-        for (Product product : customerCart) {
+        for (Product product : CUSTOMER_CART) {
             if (product.getProductQuantity() <= 0) {
                 UIHelper.sleep(1, "No stocks for " + product.getProductName());
                 return;
@@ -216,14 +216,14 @@ public class CustomerController {
             totalPrice += product.getProductPrice() * product.getBOUGHT_QUANTITY();
         }
 
-        if (customer.getBalance() < totalPrice) {
-            System.out.println("You don't have enough money to pay for that!");
+        if (CUSTOMER.getBalance() < totalPrice) {
+            UIHelper.sleep(1, "You don't have enough money to pay for that!");
             return;
         }
 
         // ? Loops throughout the customerCart and make transactions in each of the products
-        for (Product product : customerCart) {
-            Transaction transaction = new Transaction(customer, product);
+        for (Product product : CUSTOMER_CART) {
+            Transaction transaction = new Transaction(CUSTOMER, product);
             TransactionController transactionController = new TransactionController(transaction);
 
             UIHelper.sleep(2, "Processing your request..");
@@ -243,7 +243,7 @@ public class CustomerController {
         UIHelper.sleep(1, "Checkout done!");
 
         // ? Updates the file (customerCart.csv) by removing the customer who just checked out.
-        FileHelper.updateCustomerCartCSV(customer.getFirstName());
-        customerCart.clear();
+        FileHelper.updateCustomerCartCSV(CUSTOMER.getFirstName());
+        CUSTOMER_CART.clear();
     }
 }

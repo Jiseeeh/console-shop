@@ -6,20 +6,20 @@ import Model.Product;
 import java.util.List;
 
 public class ProductController {
-    private final Product product;
-    private final List<Product> productList = Owner.PRODUCT_LIST;
+    private final Product PRODUCT;
+    private final List<Product> PRODUCT_LIST = Owner.PRODUCT_LIST;
 
     public ProductController(Product product) {
-        this.product = product;
+        this.PRODUCT = product;
     }
 
     public void updateProductQuantity(int bought) {
-        product.setProductQuantity(product.getProductQuantity() - bought);
+        PRODUCT.setProductQuantity(PRODUCT.getProductQuantity() - bought);
     }
 
     public void updateProduct() {
-        if (product.getProductQuantity() == 0) {
-            productList.remove(product);
+        if (PRODUCT.getProductQuantity() == 0) {
+            PRODUCT_LIST.remove(PRODUCT);
         }
     }
 }
