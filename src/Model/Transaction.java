@@ -1,29 +1,29 @@
 package Model;
 
 public class Transaction {
-    private final Customer customer;
-    private final Product product;
+    private final Customer CUSTOMER;
+    private final Product PRODUCT;
 
     public Transaction(Customer customer, Product product) {
-        this.customer = customer;
-        this.product = product;
+        this.CUSTOMER = customer;
+        this.PRODUCT = product;
     }
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%.1f,%d", customer.getFirstName(), product.getProductName(), product.getProductPrice(), product.getBOUGHT_QUANTITY());
+        return String.format("%s,%s,%.1f,%d", CUSTOMER.getFirstName(), PRODUCT.getProductName(), PRODUCT.getProductPrice(), PRODUCT.getBOUGHT_QUANTITY());
     }
 
     public String getProductInfo() {
-        return product.getProductQuantity() + "x of " + product.getProductName();
+        return PRODUCT.getProductQuantity() + "x of " + PRODUCT.getProductName();
     }
 
     public Customer getCustomer() {
-        return customer;
+        return CUSTOMER;
     }
 
     public Product getProduct() {
-        return product;
+        return PRODUCT;
     }
 
 }
