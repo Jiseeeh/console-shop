@@ -8,10 +8,7 @@ public class Owner extends User {
     public static final List<Product> PRODUCT_LIST = new ArrayList<>();
     public static final List<Transaction> TRANSACTION_LIST = new ArrayList<>();
 
-    private Owner() {
-        this.setFirstName("JohnCarlo");
-        this.setLastName("Camara");
-        this.setUsername("owner");
-        this.setPassword("123");
+    public Owner() {
+        super("JohnCarlo", "Camara", "Owner", "123");
     }
 }

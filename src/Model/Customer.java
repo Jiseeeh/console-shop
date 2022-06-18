@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer extends User {
-    private final List<Product> myCart = new ArrayList<>();
+    private final List<Product> MY_CART = new ArrayList<>();
     private final List<Product> BOUGHT_PRODUCTS = new ArrayList<>();
     private Double balance = 0.0;
 
     public Customer(String firstName, String lastName, String username, String password) {
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
-        this.setUsername(username);
-        this.setPassword(password);
+        super(firstName, lastName, username, password);
     }
 
     @Override
@@ -29,8 +26,9 @@ public class Customer extends User {
     }
 
     public List<Product> getMyCart() {
-        return myCart;
+        return MY_CART;
     }
+
     public List<Product> getBoughtProducts() {
         return BOUGHT_PRODUCTS;
     }
