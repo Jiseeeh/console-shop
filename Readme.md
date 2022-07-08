@@ -51,3 +51,4 @@
 - Make a separate class for the `lists`
 - Remove product's quantity properties, because it represents a single product.
   - because having that property there, it would look like an inventory.
+- I don't think that I am going to fix that (i am studying js), so if you want to practice java you can just make a PR then I'll check it. 
